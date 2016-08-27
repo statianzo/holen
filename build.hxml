@@ -1,0 +1,15 @@
+-cp src
+-dce full
+-D js-flatten
+-D js-es5
+-debug
+
+--each
+
+-js lib/index.js
+Jack
+
+--next
+
+-js test/index.js
+-main JackTests

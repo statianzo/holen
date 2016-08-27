@@ -1,0 +1,17 @@
+{
+  "name": "jack",
+  "version": "0.0.1",
+  "description": "Ajax",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ajax"
+  ],
+  "author": "statianzo",
+  "license": "ISC",
+  "devDependencies": {
+    "haxe": "^3.2.1"
+  }
+}
