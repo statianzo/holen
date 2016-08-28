@@ -12,6 +12,8 @@
   "author": "statianzo",
   "license": "ISC",
   "devDependencies": {
-    "haxe": "^3.2.1"
+    "express": "^4.14.0",
+    "haxe": "^3.2.1",
+    "teenytest": "^5.0.2"
   }
 }

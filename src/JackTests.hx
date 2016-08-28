@@ -1,11 +1,22 @@
-class JackTests extends haxe.unit.TestCase {
-  static function main() {
-    var runner = new haxe.unit.TestRunner();
-    runner.add(new JackTests());
-    runner.run();
+import js.node.Assert;
+
+
+@:keep
+class JackTests {
+  static var server: JackTestsServer;
+  @:expose
+  static function beforeAll(done) {
+    server = new JackTestsServer();
+    server.start();
   }
 
-  function testWork() {
-    assertEquals("B", "B");
+  @:expose
+  static function afterAll() {
+    server.stop();
+  }
+
+  @:expose
+  static function jack() {
+    Assert.equal(1, 1);
   }
 }
