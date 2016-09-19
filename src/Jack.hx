@@ -1,3 +1,5 @@
+package;
+
 import js.Promise;
 import js.Error;
 import js.html.XMLHttpRequest;
@@ -34,7 +36,7 @@ typedef Response = {
 class Jack {
   @:keep
   @:expose('jack')
-  static function jack(options:AjaxOptions):Promise<Response> {
+  public static function jack(options:AjaxOptions):Promise<Response> {
     return new Promise<Response>(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
       xhr.open(options.method, options.url);

@@ -4,7 +4,7 @@
   "description": "Ajax",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "browserify -t [haxeify --main --dce full] src/JackTests.hx | tape-run --browser phantomjs"
   },
   "keywords": [
     "ajax"
@@ -12,8 +12,10 @@
   "author": "statianzo",
   "license": "ISC",
   "devDependencies": {
-    "express": "^4.14.0",
-    "haxe": "^3.2.1",
-    "teenytest": "^5.0.2"
+    "browserify": "^13.1.0",
+    "es6-promise": "^3.3.1",
+    "haxeify": "github:statianzo/haxeify",
+    "tape": "^4.6.0",
+    "tape-run": "^2.1.4"
   }
 }
