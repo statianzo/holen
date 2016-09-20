@@ -91,5 +91,16 @@ class JackTests {
         })
         .catchError(t.error);
     });
+
+    Tape.test('empty body', {timeout: 500}, function(t) {
+      t.plan(3);
+      Jack.jack({url: 'http://localhost:3000/empty', method: 'GET'})
+        .then(function(res) {
+          t.ok(res.ok);
+          t.equal(res.status, 204);
+          t.equal(res.body, null);
+        })
+        .catchError(t.error);
+    });
   }
 }

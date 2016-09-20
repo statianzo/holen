@@ -10,10 +10,6 @@ var routes = {
   '/request': function(res, req) {
     res.writeHead(200, {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-      'Access-Control-Allow-Credentials': 'true',
     });
     var data = ''
     req.on('data', function(c) { data += c })
@@ -131,6 +127,11 @@ var types = {
 server = http.createServer(function(req, res) {
   var pathname = url.parse(req.url).pathname;
   var route = routes[pathname];
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
   if (route) {
     route(res, req);
   } else {
