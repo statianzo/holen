@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+
+browserify -t [haxeify --main --dce full] src/JackTests.hx | tape-run --browser phantomjs | tap-min

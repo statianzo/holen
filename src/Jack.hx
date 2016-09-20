@@ -40,6 +40,7 @@ class Jack {
     return new Promise<Response>(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
       xhr.open(options.method, options.url);
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.addEventListener(XhrEvents.ReadyStateChange, function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           var response = buildResponse(xhr, options);

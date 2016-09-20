@@ -4,7 +4,9 @@
   "description": "Ajax",
   "main": "lib/index.js",
   "scripts": {
-    "test": "browserify -t [haxeify --main --dce full] src/JackTests.hx | tape-run --browser phantomjs"
+    "test": "parallel test:server test:run",
+    "test:run": "scripts/test-run",
+    "test:server": "scripts/test-server"
   },
   "keywords": [
     "ajax"
@@ -15,6 +17,8 @@
     "browserify": "^13.1.0",
     "es6-promise": "^3.3.1",
     "haxeify": "github:statianzo/haxeify",
+    "npm-parallel": "^2.0.1",
+    "tap-min": "^1.1.0",
     "tape": "^4.6.0",
     "tape-run": "^2.1.4"
   }

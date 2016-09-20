@@ -1,11 +1,12 @@
 package;
 import haxe.Json;
+import haxe.DynamicAccess;
 
 interface TapeTest {
   function plan(count: Int): Void;
   function ok(value: Bool, ?message: String): Void;
   function notOk(value: Bool, ?message: String): Void;
-  function error(object: Dynamic, ?message: String): Void;
+  function error(object: Dynamic): Void;
   function throws(fn: Void->Void, expected: Dynamic, ?message: String): Void;
   function doesNotThrow(fn: Void->Void, ?message: String): Void;
   function equal<T>(actual: T, expected: T, ?message: String): Void;
@@ -28,27 +29,67 @@ typedef TapeOptions = {
   @:optional var diagnostic: Bool;
 };
 
-@:jsRequire("tape")
+@:jsRequire('tape')
 extern class Tape {
   static function test(name: String, ?options: TapeOptions, body: TapeTest->Void): Void;
 }
 
-@:jsRequire("es6-promise")
+@:jsRequire('es6-promise')
 extern class Es6Promise {
   static function polyfill(): Void;
+}
+
+@:jsRequire('process')
+extern class Process {
+  static function on(event: String, callback: Dynamic->Void): Void;
 }
 
 @:keep
 class JackTests {
   static function main() {
+    var host = 'http://localhost:3000';
     Es6Promise.polyfill();
-    Tape.test("hello", {timeout: 5000}, function(t) {
+
+    Tape.test('get', {timeout: 500}, function(t) {
+      t.plan(3);
+      Jack.jack({url: 'http://localhost:3000/request', method: 'GET'})
+        .then(function(res) {
+          var headers: DynamicAccess<String> = res.body.headers;
+          t.ok(res.ok);
+          t.equal(res.body.method, 'GET');
+          t.equal(headers['x-requested-with'], 'XMLHttpRequest');
+        })
+        .catchError(t.error);
+    });
+
+    Tape.test('post', {timeout: 500}, function(t) {
       t.plan(2);
-      var p = Jack.jack({url: "https://api.github.com/users/statianzo", method: "GET"});
-      p.then(function(res) {
-        t.equal(res.body.login, "statianzo");
-        t.ok(res.ok);
-      });
+      Jack.jack({url: 'http://localhost:3000/request', method: 'POST'})
+        .then(function(res) {
+          t.ok(res.ok);
+          t.equal(res.body.method, 'POST');
+        })
+        .catchError(t.error);
+    });
+
+    Tape.test('put', {timeout: 500}, function(t) {
+      t.plan(2);
+      Jack.jack({url: 'http://localhost:3000/request', method: 'PUT'})
+        .then(function(res) {
+          t.ok(res.ok);
+          t.equal(res.body.method, 'PUT');
+        })
+        .catchError(t.error);
+    });
+
+    Tape.test('delete', {timeout: 500}, function(t) {
+      t.plan(2);
+      Jack.jack({url: 'http://localhost:3000/request', method: 'DELETE'})
+        .then(function(res) {
+          t.ok(res.ok);
+          t.equal(res.body.method, 'DELETE');
+        })
+        .catchError(t.error);
     });
   }
 }
