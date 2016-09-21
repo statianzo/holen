@@ -3,6 +3,9 @@ import haxe.Json;
 import haxe.DynamicAccess;
 
 interface TapeTest {
+  function fail(?message: String): Void;
+  function pass(?message: String): Void;
+  function skip(?message: String): Void;
   function plan(count: Int): Void;
   function ok(value: Bool, ?message: String): Void;
   function notOk(value: Bool, ?message: String): Void;
@@ -101,6 +104,20 @@ class JackTests {
           t.equal(res.body, null);
         })
         .catchError(t.error);
+    });
+
+    Tape.test('500 response', {timeout: 500}, function(t) {
+      t.plan(4);
+      Jack.jack({url: 'http://localhost:3000/boom', method: 'GET'})
+        .then(function(res) {
+          t.fail('response promise was not rejected');
+        })
+        .catchError(function(err) {
+          t.notOk(err.ok);
+          t.equal(err.status, 500);
+          t.equal(err.body, null);
+          t.equal(err.text, 'boom');
+        });
     });
   }
 }
