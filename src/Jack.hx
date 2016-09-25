@@ -8,7 +8,7 @@ import js.RegExp;
 import haxe.Json;
 
 class ResponseTypes {
-  public static function isJSON(contentType: String): Bool {
+  public static inline function isJSON(contentType: String): Bool {
     return new RegExp("[\\/+]json").test(contentType);
   }
 }
@@ -39,6 +39,7 @@ class Jack {
   public static function jack(options:AjaxOptions):Promise<Response> {
     return new Promise<Response>(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
+      var body = transformRequest(options.data);
       xhr.open(options.method, options.url);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.addEventListener(XhrEvents.ReadyStateChange, function() {
@@ -52,11 +53,20 @@ class Jack {
           }
         }
       });
-      xhr.send();
+      xhr.send(body);
     });
   }
 
-  static function buildResponse(xhr: XMLHttpRequest, options) : Response  {
+  static inline function transformRequest(data: Dynamic): Dynamic {
+    return if (isObject(data)) {
+      Json.stringify(data);
+    }
+    else {
+      data;
+    }
+  }
+
+  static inline function buildResponse(xhr: XMLHttpRequest, options) : Response  {
     var statusRange = Math.floor(xhr.status / 100);
     var ok = statusRange == HttpStatusRanges.Ok;
     var response: Response = cast (ok ? {} : new Error('jack request failed'));
@@ -77,5 +87,13 @@ class Jack {
     else {
       null;
     }
+  }
+
+  static function isObject(val: Dynamic): Bool {
+    return typeof(val) == 'object' && val != null;
+  }
+
+  static inline function typeof(val: Dynamic): String {
+    return untyped __js__('typeof(val)');
   }
 }

@@ -119,5 +119,24 @@ class JackTests {
           t.equal(err.text, 'boom');
         });
     });
+
+    Tape.test('posting data', {timeout: 500}, function(t) {
+      var data = {
+        name: 'Chelsea',
+        age: 27,
+        cats: ['One', 'Two', 'Three']
+      };
+      t.plan(2);
+      Jack.jack({
+        url: 'http://localhost:3000/request',
+        method: 'POST',
+        data: data
+      })
+      .then(function(res) {
+        t.ok(res.ok);
+        t.same(Json.parse(res.body.data), data);
+      })
+      .catchError(t.error);
+    });
   }
 }
