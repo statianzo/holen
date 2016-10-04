@@ -1,4 +1,3 @@
-package;
 import haxe.Json;
 import haxe.DynamicAccess;
 
@@ -120,7 +119,26 @@ class JackTests {
         });
     });
 
-    Tape.test('posting data', {timeout: 500}, function(t) {
+    Tape.test('posting querystring format', {timeout: 500}, function(t) {
+      var data = {
+        name: 'Chelsea',
+        age: '27',
+        cats: ['One', 'Two', 'Three']
+      };
+      t.plan(2);
+      Jack.jack({
+        url: 'http://localhost:3000/request',
+        method: 'POST',
+        data: data
+      })
+      .then(function(res) {
+        t.ok(res.ok);
+        t.same(QueryString.parse(res.body.data), data);
+      })
+      .catchError(t.error);
+    });
+
+    Tape.test('posting json format', {timeout: 500}, function(t) {
       var data = {
         name: 'Chelsea',
         age: 27,
@@ -130,6 +148,7 @@ class JackTests {
       Jack.jack({
         url: 'http://localhost:3000/request',
         method: 'POST',
+        serialize: 'json',
         data: data
       })
       .then(function(res) {

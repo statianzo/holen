@@ -1,37 +1,8 @@
-package;
-
 import js.Promise;
 import js.Error;
 import js.html.XMLHttpRequest;
 import js.html.XMLHttpRequestResponseType;
-import js.RegExp;
 import haxe.Json;
-
-class ResponseTypes {
-  public static inline function isJSON(contentType: String): Bool {
-    return new RegExp("[\\/+]json").test(contentType);
-  }
-}
-
-class HttpStatusRanges {
-  public static inline var Ok = 2;
-  public static inline var Redirect = 3;
-  public static inline var ClientError = 4;
-  public static inline var ServerError = 5;
-}
-
-class XhrEvents {
-  public static inline var ReadyStateChange = "readystatechange";
-}
-
-typedef Response = {
-  var body: Dynamic;
-  var ok: Bool;
-  var status: Int;
-  var statusText: String;
-  var text: String;
-  var xhr: XMLHttpRequest;
-}
 
 class Jack {
   @:keep
@@ -39,7 +10,7 @@ class Jack {
   public static function jack(options:AjaxOptions):Promise<Response> {
     return new Promise<Response>(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
-      var body = transformRequest(options.data);
+      var body = transformRequest(options.data, options.serialize);
       xhr.open(options.method, options.url);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.addEventListener(XhrEvents.ReadyStateChange, function() {
@@ -57,9 +28,14 @@ class Jack {
     });
   }
 
-  static inline function transformRequest(data: Dynamic): Dynamic {
-    return if (isObject(data)) {
-      Json.stringify(data);
+  static inline function transformRequest(data: Dynamic, serialize: String): Dynamic {
+    return if (isObject(data) ) {
+      if (serialize == 'json') {
+        Json.stringify(data);
+      }
+      else {
+        QueryString.stringify(data);
+      }
     }
     else {
       data;
@@ -67,7 +43,7 @@ class Jack {
   }
 
   static inline function buildResponse(xhr: XMLHttpRequest, options) : Response  {
-    var statusRange = Math.floor(xhr.status / 100);
+    var statusRange = HttpStatusRanges.getRange(xhr.status);
     var ok = statusRange == HttpStatusRanges.Ok;
     var response: Response = cast (ok ? {} : new Error('jack request failed'));
     response.body = parseBody(xhr);
@@ -91,6 +67,10 @@ class Jack {
 
   static function isObject(val: Dynamic): Bool {
     return typeof(val) == 'object' && val != null;
+  }
+
+  static function isFunction(val: Dynamic): Bool {
+    return typeof(val) == 'function';
   }
 
   static inline function typeof(val: Dynamic): String {
