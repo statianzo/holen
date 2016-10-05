@@ -52,7 +52,7 @@ class JackTests {
 
   function get(t: TapeTest) {
     t.plan(3);
-    Jack.jack({url: '${host}/request', method: 'GET'})
+    Jack.jack({url: '$host/request', method: 'GET'})
       .then(function(res) {
         var headers: DynamicAccess<String> = res.body.headers;
         t.ok(res.ok);
@@ -64,7 +64,7 @@ class JackTests {
 
   function post(t: TapeTest) {
     t.plan(2);
-    Jack.jack({url: '${host}/request', method: 'POST'})
+    Jack.jack({url: '$host/request', method: 'POST'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.body.method, 'POST');
@@ -74,7 +74,7 @@ class JackTests {
 
   function put(t: TapeTest) {
     t.plan(2);
-    Jack.jack({url: '${host}/request', method: 'PUT'})
+    Jack.jack({url: '$host/request', method: 'PUT'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.body.method, 'PUT');
@@ -84,7 +84,7 @@ class JackTests {
 
   function delete(t: TapeTest) {
     t.plan(2);
-    Jack.jack({url: '${host}/request', method: 'DELETE'})
+    Jack.jack({url: '$host/request', method: 'DELETE'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.body.method, 'DELETE');
@@ -94,7 +94,7 @@ class JackTests {
 
   function emptyBody(t: TapeTest) {
     t.plan(3);
-    Jack.jack({url: '${host}/empty', method: 'GET'})
+    Jack.jack({url: '$host/empty', method: 'GET'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.status, 204);
@@ -105,7 +105,7 @@ class JackTests {
 
   function response500(t: TapeTest) {
     t.plan(4);
-    Jack.jack({url: '${host}/boom', method: 'GET'})
+    Jack.jack({url: '$host/boom', method: 'GET'})
       .then(function(res) {
         t.fail('response promise was not rejected');
       })
@@ -125,7 +125,7 @@ class JackTests {
     };
     t.plan(2);
     Jack.jack({
-      url: '${host}/request',
+      url: '$host/request',
       method: 'POST',
       data: data
     })
@@ -144,7 +144,7 @@ class JackTests {
     };
     t.plan(2);
     Jack.jack({
-      url: '${host}/request',
+      url: '$host/request',
       method: 'POST',
       serialize: 'json',
       data: data
@@ -159,7 +159,7 @@ class JackTests {
   function getIgnoresData(t: TapeTest) {
     t.plan(2);
     Jack.jack({
-      url: '${host}/request',
+      url: '$host/request',
       method: 'GET',
       serialize: 'json',
       data: 'ignore me'
