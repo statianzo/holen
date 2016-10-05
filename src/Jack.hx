@@ -7,7 +7,7 @@ import haxe.Json;
 class Jack {
   @:keep
   @:expose('jack')
-  public static function jack(options:AjaxOptions):Promise<Response> {
+  public static function jack(options: AjaxOptions):Promise<Response> {
     return new Promise<Response>(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
       var body = transformRequest(options.data, options.serialize);
