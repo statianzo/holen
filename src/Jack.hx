@@ -69,10 +69,6 @@ class Jack {
     return typeof(val) == 'object' && val != null;
   }
 
-  static function isFunction(val: Dynamic): Bool {
-    return typeof(val) == 'function';
-  }
-
   static inline function typeof(val: Dynamic): String {
     return untyped __js__('typeof(val)');
   }
