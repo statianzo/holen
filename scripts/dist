@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
+mkdir -p dist
+browserify -t [haxeify --dce full] src/Holen.hx > dist/holen.js

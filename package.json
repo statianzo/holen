@@ -4,6 +4,8 @@
   "description": "Focused ajax library",
   "main": "lib/index.js",
   "scripts": {
+    "dist": "scripts/dist",
+    "version": "npm run dist && git add -A dist",
     "test": "parallel test:server test:run",
     "test:run": "scripts/test-run",
     "test:server": "scripts/test-server"

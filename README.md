@@ -26,4 +26,4 @@ holen.ajax({
 
 Holen is a no frills ajax library striving to cover the 80% case. It relies on
 native promises instead of its own half-baked implementation. Holen is small
-(<1K) and focused. No middleware, jsonp, or caching. Just ajax.
+and focused. No middleware, jsonp, or caching. Just ajax.
