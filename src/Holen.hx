@@ -4,10 +4,10 @@ import js.html.XMLHttpRequest;
 import js.html.XMLHttpRequestResponseType;
 import haxe.Json;
 
-class Jack {
+class Holen {
   @:keep
-  @:expose('jack')
-  public static function jack(options: AjaxOptions):Promise<Response> {
+  @:expose('ajax')
+  public static function ajax(options: AjaxOptions):Promise<Response> {
     return new Promise<Response>(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
       var body = transformRequest(options.data, options.serialize);
@@ -45,7 +45,7 @@ class Jack {
   static inline function buildResponse(xhr: XMLHttpRequest, options) : Response  {
     var statusRange = HttpStatusRanges.getRange(xhr.status);
     var ok = statusRange == HttpStatusRanges.Ok;
-    var response: Response = cast (ok ? {} : new Error('jack request failed'));
+    var response: Response = cast (ok ? {} : new Error('Holen request failed'));
     response.body = parseBody(xhr);
     response.ok = ok;
     response.status = xhr.status;

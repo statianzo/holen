@@ -47,12 +47,12 @@ extern class Process {
 }
 
 @:keep
-class JackTests {
+class HolenTests {
   static var host = 'http://localhost:3000';
 
   function get(t: TapeTest) {
     t.plan(3);
-    Jack.jack({url: '$host/request', method: 'GET'})
+    Holen.ajax({url: '$host/request', method: 'GET'})
       .then(function(res) {
         var headers: DynamicAccess<String> = res.body.headers;
         t.ok(res.ok);
@@ -64,7 +64,7 @@ class JackTests {
 
   function post(t: TapeTest) {
     t.plan(2);
-    Jack.jack({url: '$host/request', method: 'POST'})
+    Holen.ajax({url: '$host/request', method: 'POST'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.body.method, 'POST');
@@ -74,7 +74,7 @@ class JackTests {
 
   function put(t: TapeTest) {
     t.plan(2);
-    Jack.jack({url: '$host/request', method: 'PUT'})
+    Holen.ajax({url: '$host/request', method: 'PUT'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.body.method, 'PUT');
@@ -84,7 +84,7 @@ class JackTests {
 
   function delete(t: TapeTest) {
     t.plan(2);
-    Jack.jack({url: '$host/request', method: 'DELETE'})
+    Holen.ajax({url: '$host/request', method: 'DELETE'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.body.method, 'DELETE');
@@ -94,7 +94,7 @@ class JackTests {
 
   function emptyBody(t: TapeTest) {
     t.plan(3);
-    Jack.jack({url: '$host/empty', method: 'GET'})
+    Holen.ajax({url: '$host/empty', method: 'GET'})
       .then(function(res) {
         t.ok(res.ok);
         t.equal(res.status, 204);
@@ -105,7 +105,7 @@ class JackTests {
 
   function response500(t: TapeTest) {
     t.plan(4);
-    Jack.jack({url: '$host/boom', method: 'GET'})
+    Holen.ajax({url: '$host/boom', method: 'GET'})
       .then(function(res) {
         t.fail('response promise was not rejected');
       })
@@ -124,7 +124,7 @@ class JackTests {
       cats: ['One', 'Two', 'Three']
     };
     t.plan(2);
-    Jack.jack({
+    Holen.ajax({
       url: '$host/request',
       method: 'POST',
       data: data
@@ -143,7 +143,7 @@ class JackTests {
       cats: ['One', 'Two', 'Three']
     };
     t.plan(2);
-    Jack.jack({
+    Holen.ajax({
       url: '$host/request',
       method: 'POST',
       serialize: 'json',
@@ -158,7 +158,7 @@ class JackTests {
 
   function getIgnoresData(t: TapeTest) {
     t.plan(2);
-    Jack.jack({
+    Holen.ajax({
       url: '$host/request',
       method: 'GET',
       serialize: 'json',
@@ -175,8 +175,8 @@ class JackTests {
   static function main() {
     Es6Promise.polyfill();
 
-    var fieldNames = Type.getInstanceFields(JackTests);
-    var instance = Type.createEmptyInstance(JackTests);
+    var fieldNames = Type.getInstanceFields(HolenTests);
+    var instance = Type.createEmptyInstance(HolenTests);
     for (name in fieldNames) {
       var method = Reflect.field(instance, name);
       Tape.test(name, {timeout: 500}, function(t) {
