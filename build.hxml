@@ -8,9 +8,9 @@
 
 -xml lib/docs.xml
 -js lib/index.js
-Holen
+holen.Holen
 
 --next
 
 -js test/index.js
-HolenTests
+holen.HolenTests

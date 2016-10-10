@@ -1,4 +1,4 @@
 #!/bin/bash
 set -euo pipefail
 
-haxelib run dox -i lib/docs.xml -o docs
+haxelib run dox --toplevel-package holen -i lib/docs.xml -o docs
