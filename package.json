@@ -4,16 +4,27 @@
   "description": "Focused ajax library",
   "main": "lib/index.js",
   "scripts": {
-    "dist": "scripts/dist",
+    "build:dist": "scripts/build-dist",
+    "build:lib": "scripts/build-lib",
+    "build:docs": "scripts/build-docs",
     "build": "scripts/build",
-    "docs": "scripts/docs",
     "version": "scripts/version",
     "test": "parallel test:server test:run",
     "test:run": "scripts/test-run",
-    "test:server": "scripts/test-server"
+    "test:server": "scripts/test-server",
+    "prepublish": "npm build"
   },
   "keywords": [
     "ajax"
+  ],
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "docs",
+    "LICENSE",
+    "README.md",
+    "build.hxml"
   ],
   "author": "statianzo",
   "license": "ISC",

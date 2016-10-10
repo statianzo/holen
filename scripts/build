@@ -1,4 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-haxe build.hxml
+npm run build:lib
+npm run build:docs
+npm run build:dist
