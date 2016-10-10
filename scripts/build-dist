@@ -2,5 +2,4 @@
 set -euo pipefail
 
 mkdir -p dist
-npm run build
 browserify lib/index.js > dist/holen.js
