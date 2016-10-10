@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+
+haxelib run -i lib/docs.xml -o docs

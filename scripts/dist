@@ -2,4 +2,5 @@
 set -euo pipefail
 
 mkdir -p dist
-browserify -t [haxeify --dce full] src/Holen.hx > dist/holen.js
+npm run build
+browserify lib/index.js > dist/holen.js
