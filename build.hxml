@@ -6,6 +6,7 @@
 
 --each
 
+-xml lib/docs.xml
 -js lib/index.js
 Holen
 
